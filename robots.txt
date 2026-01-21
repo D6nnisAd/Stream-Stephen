@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /assets/js/
+Disallow: /firestore-init.js
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /register.html
+Allow: /

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Stream Africa</title>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico">
+
+    <!-- Fonts, Bootstrap, FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #013740;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(0, 0, 0, 0.2);
+            --btn-cream: #fcf6ba;
+            --btn-cream-hover: #fffad1;
+            --text-color: #fff;
+            --text-muted: #a0a0a0;
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: 'Poppins', sans-serif; 
+            min-height: 100vh;
+        }
+        
+        /* Navbar */
+        .admin-nav {
+            background: rgba(0,0,0,0.25);
+            padding: 18px 0;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn { 
+            color: #ff8fa3; 
+            cursor: pointer; 
+            text-decoration: none; 
+            font-weight: 500; 
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255, 143, 163, 0.1);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn:hover { 
+            background: rgba(255, 143, 163, 0.2);
+            color: #ff6b6b;
+        }
+
+        /* Cards */
+        .admin-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card-header-custom { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            margin-bottom: 25px; 
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--btn-cream);
+        }
+
+        /* Forms */
+        .form-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-control { 
+            background: var(--input-bg); 
+            border: 1px solid var(--card-border); 
+            color: white; 
+            padding: 12px 15px;
+            border-radius: 10px;
+        }
+        
+        .form-control:focus { 
+            background: var(--input-bg); 
+            color: white; 
+            border-color: var(--btn-cream); 
+            box-shadow: 0 0 0 3px rgba(252, 246, 186, 0.1); 
+        }
+
+        .input-group-text {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--card-border);
+            color: #ccc;
+        }
+
+        /* Buttons */
+        .btn-action { 
+            background: var(--btn-cream); 
+            color: #013740; 
+            border: none; 
+            font-weight: 600; 
+            padding: 12px 25px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-action:hover { 
+            background: var(--btn-cream-hover); 
+            transform: translateY(-2px);
+            color: #013740;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Table */
+        .table-responsive {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .table-custom { 
+            width: 100%;
+            border-collapse: collapse;
+            color: #ddd; 
+        }
+        
+        .table-custom th { 
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-align: left;
+        }
+        
+        .table-custom td { 
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            vertical-align: middle;
+        }
+
+        .table-custom tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table-custom tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        /* Status Badges */
+        .status-badge { 
+            padding: 6px 12px; 
+            border-radius: 30px; 
+            font-size: 0.75rem; 
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-active { 
+            background: rgba(25, 135, 84, 0.15); 
+            color: #75b798; 
+            border: 1px solid rgba(25, 135, 84, 0.3); 
+        }
+        
+        .status-disabled { 
+            background: rgba(255, 193, 7, 0.15); 
+            color: #ffda6a; 
+            border: 1px solid rgba(255, 193, 7, 0.3); 
+        }
+
+        /* Action Icons */
+        .action-btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-icon { 
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: rgba(255,255,255,0.05);
+            color: #aaa; 
+            transition: all 0.2s; 
+        }
+        
+        .btn-icon:hover { 
+            background: rgba(255,255,255,0.1);
+            color: white; 
+        }
+        
+        .btn-icon.delete:hover { 
+            background: rgba(220, 53, 69, 0.2);
+            color: #ff6b6b; 
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+        }
+
+        .toast-custom {
+            background: #1a1d21;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            min-width: 300px;
+            border-left: 4px solid var(--btn-cream);
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .toast-custom.error {
+            border-left-color: #ff6b6b;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Loading States */
+        .spinner-sm {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
+        }
+
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="nav-brand">
+                <img src="assets/logo.svg" alt="Logo" height="30">
+                <span>Dashboard</span>
+            </div>
+            <a id="logoutBtn" class="logout-btn">
+                <i class="fas fa-power-off me-2"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        
+        <div class="row g-4">
+            <!-- Global Link Settings -->
+            <div class="col-lg-5">
+                <div class="admin-card h-100">
+                    <div class="card-header-custom">
+                        <i class="fas fa-globe"></i> Global Contact Link
+                    </div>
+                    <p class="text-white-50" style="font-size: 0.9rem;">
+                        This link applies to all interactive elements (images, banners, icons) on the home page.
+                    </p>
+                    <form id="globalSettingsForm">
+                        <div class="mb-4">
+                            <label class="form-label">Destination URL</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                <input type="url" id="globalLinkInput" class="form-control" placeholder="https://t.me/username or https://wa.me/..." required>
+                            </div>
+                        </div>
+                        <button class="btn btn-action w-100" type="submit" id="globalSaveBtn">
+                            <span class="btn-text">Update Link</span>
+                            <span class="spinner-border spinner-sm d-none" role="status"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Merchant -->
+            <div class="col-lg-7">
+                <div class="admin-card h-100">
+                    <div class="card-header-custom">
+                        <i class="fas fa-user-plus"></i> Add New Merchant
+                    </div>
+                    <form id="addMerchantForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Merchant Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" id="merchantName" class="form-control" placeholder="e.g. Vendor John" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Contact Link</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fab fa-whatsapp"></i></span>
+                                    <input type="url" id="merchantLink" class="form-control" placeholder="https://wa.me/..." required>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4 text-end">
+                                <button type="submit" class="btn btn-action" id="addMerchantBtn">
+                                    <span class="btn-text">Add Merchant</span>
+                                    <span class="spinner-border spinner-sm d-none" role="status"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Merchant List -->
+            <div class="col-12">
+                <div class="admin-card">
+                    <div class="card-header-custom justify-content-between">
+                        <div><i class="fas fa-users-cog"></i> Manage Merchants</div>
+                        <span class="badge bg-secondary fw-light" id="merchantCount">0 Total</span>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th width="30%">Name</th>
+                                    <th width="40%">Link</th>
+                                    <th width="15%">Status</th>
+                                    <th width="15%" class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="merchantsTableBody">
+                                <!-- Loading State Row -->
+                                <tr>
+                                    <td colspan="4" class="text-center py-5">
+                                        <div class="spinner-border text-light opacity-25" role="status"></div>
+                                        <div class="mt-2 text-white-50 small">Loading merchants...</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module">
+        import { auth, db } from './firestore-init.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, setDoc, collection, addDoc, onSnapshot, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Auth Guard
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                initAdmin();
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // --- Toast System ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-custom ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            toast.innerHTML = `
+                <i class="fas ${icon} fa-lg"></i>
+                <div>${message}</div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease-in reverse forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // --- Button Loading State Helper ---
+        function setBtnLoading(btnId, isLoading) {
+            const btn = document.getElementById(btnId);
+            const text = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('.spinner-border');
+            
+            btn.disabled = isLoading;
+            if (isLoading) {
+                text.classList.add('d-none');
+                spinner.classList.remove('d-none');
+            } else {
+                text.classList.remove('d-none');
+                spinner.classList.add('d-none');
+            }
+        }
+
+        async function initAdmin() {
+            // 1. Load Global Settings
+            const globalRef = doc(db, "settings", "global");
+            try {
+                const snap = await getDoc(globalRef);
+                if (snap.exists() && snap.data().whatsappLink) {
+                    document.getElementById('globalLinkInput').value = snap.data().whatsappLink;
+                }
+            } catch(e) { console.error(e); }
+
+            // Update Global Settings
+            document.getElementById('globalSettingsForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                setBtnLoading('globalSaveBtn', true);
+                
+                const link = document.getElementById('globalLinkInput').value;
+                try {
+                    await setDoc(globalRef, { whatsappLink: link }, { merge: true });
+                    showToast('Global link updated successfully!');
+                } catch (error) {
+                    showToast('Failed to update link.', 'error');
+                } finally {
+                    setBtnLoading('globalSaveBtn', false);
+                }
+            });
+
+            // 2. Add Merchant
+            document.getElementById('addMerchantForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                setBtnLoading('addMerchantBtn', true);
+                
+                const name = document.getElementById('merchantName').value;
+                const link = document.getElementById('merchantLink').value;
+                
+                try {
+                    await addDoc(collection(db, "merchants"), {
+                        name,
+                        link,
+                        isEnabled: true,
+                        createdAt: serverTimestamp()
+                    });
+                    e.target.reset();
+                    showToast('Merchant added successfully!');
+                } catch (error) {
+                    showToast('Failed to add merchant.', 'error');
+                } finally {
+                    setBtnLoading('addMerchantBtn', false);
+                }
+            });
+
+            // 3. Real-time Merchant List
+            onSnapshot(collection(db, "merchants"), (snapshot) => {
+                const tbody = document.getElementById('merchantsTableBody');
+                const countEl = document.getElementById('merchantCount');
+                
+                countEl.textContent = `${snapshot.size} Total`;
+                tbody.innerHTML = '';
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = `
+                        <tr><td colspan="4"><div class="empty-state"><i class="fas fa-inbox fa-2x mb-3"></i><br>No merchants found. Add one above.</div></td></tr>
+                    `;
+                    return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const isActive = data.isEnabled;
+                    
+                    const statusBadge = isActive 
+                        ? `<span class="status-badge status-active"><i class="fas fa-check me-1"></i> Active</span>` 
+                        : `<span class="status-badge status-disabled"><i class="fas fa-pause me-1"></i> Disabled</span>`;
+                    
+                    // Button Classes
+                    const toggleIcon = isActive ? 'fa-toggle-on text-success' : 'fa-toggle-off';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><div class="fw-medium">${data.name}</div></td>
+                        <td>
+                            <a href="${data.link}" target="_blank" class="text-white-50 text-decoration-none">
+                                <i class="fas fa-external-link-alt me-1"></i> 
+                                ${data.link.length > 30 ? data.link.substring(0, 30) + '...' : data.link}
+                            </a>
+                        </td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="action-btn-group">
+                                <button class="btn-icon" id="toggle-${id}" onclick="window.handleToggle('${id}', ${isActive})">
+                                    <i class="fas ${toggleIcon} fa-lg"></i>
+                                </button>
+                                <button class="btn-icon delete" id="delete-${id}" onclick="window.handleDelete('${id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+
+            // Expose Logic to Window
+            window.handleToggle = async (id, currentStatus) => {
+                const btn = document.getElementById(`toggle-${id}`);
+                const originalIcon = btn.innerHTML;
+                
+                // Show Loading Spinner in button
+                btn.innerHTML = `<span class="spinner-border spinner-sm" role="status"></span>`;
+                btn.disabled = true;
+
+                try {
+                    await updateDoc(doc(db, "merchants", id), { isEnabled: !currentStatus });
+                    showToast(`Merchant ${!currentStatus ? 'enabled' : 'disabled'}`);
+                } catch (e) {
+                    console.error(e);
+                    showToast('Error updating status', 'error');
+                    btn.innerHTML = originalIcon; // Revert only on error
+                } finally {
+                    btn.disabled = false;
+                }
+            };
+
+            window.handleDelete = async (id) => {
+                if(!confirm('Are you sure you want to delete this merchant permanently?')) return;
+                
+                const btn = document.getElementById(`delete-${id}`);
+                btn.innerHTML = `<span class="spinner-border spinner-sm" role="status"></span>`;
+                
+                try {
+                    await deleteDoc(doc(db, "merchants", id));
+                    showToast('Merchant deleted');
+                } catch (e) {
+                    showToast('Error deleting merchant', 'error');
+                }
+            };
+        }
+    </script>
+</body>
+</html>
