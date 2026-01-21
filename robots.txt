@@ -5,3 +5,5 @@ Disallow: /admin.html
 Disallow: /login.html
 Disallow: /register.html
 Allow: /
+
+Sitemap: https://streamapp.net.ng/sitemap.xml
