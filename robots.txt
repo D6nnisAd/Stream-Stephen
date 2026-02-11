@@ -6,4 +6,4 @@ Disallow: /login.html
 Disallow: /register.html
 Allow: /
 
-Sitemap: https://streamapp.net.ng/sitemap.xml
+Sitemap: https://streamafricaapp.com.ng/sitemap.xml
