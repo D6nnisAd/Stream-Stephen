@@ -26,8 +26,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon/android-chrome-512x512.png">
     <link rel="shortcut icon" href="assets/favicon/favicon.ico">
 
     <!-- Fonts: Poppins -->
@@ -82,13 +80,12 @@
             .split-image {
                 display: block;
                 flex: 1;
-                background-image: url('assets/about.jpg'); /* Reuse existing asset */
+                background-image: url('assets/about.jpg');
                 background-size: cover;
                 background-position: center;
                 position: relative;
             }
             
-            /* Overlay to darken image for text readability if needed */
             .split-image::after {
                 content: '';
                 position: absolute;
@@ -163,58 +160,6 @@
             margin-left: 5px;
         }
 
-        /* Package Selector Card */
-        .package-select-card {
-            background: linear-gradient(135deg, rgba(252, 246, 186, 0.15), rgba(255,255,255,0.05));
-            border: 1px solid var(--btn-cream); 
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
-        
-        /* Checkmark badge */
-        .package-select-card::after {
-            content: '\f00c';
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--btn-cream);
-            color: var(--btn-text);
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-
-        .package-info h5 {
-            margin: 0;
-            font-weight: 600;
-            color: var(--btn-cream);
-            font-size: 1.1rem;
-        }
-
-        .package-info small {
-            color: #d1d5db;
-            font-size: 0.8rem;
-            display: block;
-            margin-top: 4px;
-        }
-
-        .package-price {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: white;
-        }
-
         /* Button */
         .btn-register {
             background-color: var(--btn-cream);
@@ -241,26 +186,6 @@
             cursor: not-allowed;
             transform: none;
             color: white;
-        }
-
-        /* Helper Text */
-        .access-code-help {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        .access-code-help a {
-            color: var(--btn-cream);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        
-        .access-code-help a:hover {
-            color: white;
-            text-decoration: underline;
         }
 
         .legal-footer {
@@ -309,30 +234,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .buy-code-container {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Custom Button for Error State */
-        .btn-buy-code {
-            background-color: white !important;
-            color: #d63384 !important; /* Strong contrast color */
-            border: none;
-            font-weight: 700;
-            padding: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-            text-transform: uppercase;
-        }
-        
-        .btn-buy-code:hover {
-            background-color: #f8f9fa !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            color: #a81d63 !important;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -366,35 +267,24 @@
 
                 <!-- Error Container -->
                 <div id="errorAlert" class="auth-alert" role="alert">
-                    <div class="d-flex align-items-start">
-                        <i class="fas fa-exclamation-circle me-3 mt-1 fa-lg text-danger"></i> 
-                        <div class="flex-grow-1">
-                            <span id="errorText">Error message here</span>
-                            
-                            <!-- Buy Code Button (Hidden by default, shown via JS) -->
-                            <div id="buyCodeContainer" class="buy-code-container mt-3">
-                                <a href="merchants.html" class="btn w-100 rounded-pill btn-buy-code">
-                                    <i class="fas fa-shopping-cart me-2"></i> Purchase Valid Code
-                                </a>
-                            </div>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-3 fa-lg text-danger"></i> 
+                        <span id="errorText">Error message here</span>
                     </div>
                 </div>
 
                 <form id="registerForm">
-                    <!-- Package Selection (Visual Only) -->
-                    <div class="package-select-card">
-                        <div class="package-info">
-                            <h5>Stream Premium</h5>
-                            <small>Full access to all features</small>
-                        </div>
-                        <div class="package-price">₦12,000</div>
-                    </div>
-
+                    
                     <!-- Full Name -->
                     <div class="mb-1">
                         <label for="fullName" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="fullName" placeholder="John Doe" required>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-1">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="johndoe123" required>
                     </div>
 
                     <!-- Email -->
@@ -404,18 +294,9 @@
                     </div>
 
                     <!-- Password -->
-                    <div class="mb-1">
+                    <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="Create a secure password" required>
-                    </div>
-
-                    <!-- Access Code -->
-                    <div class="mb-3">
-                        <label for="accessCode" class="form-label">Access Code</label>
-                        <input type="text" class="form-control mb-2" id="accessCode" placeholder="Enter code" required>
-                        <div style="font-size: 0.85rem; color: #aaa;">
-                            Don't have a code? <a href="merchants.html" style="color: var(--btn-cream); text-decoration: none;">Click here</a>
-                        </div>
                     </div>
 
                     <!-- Submit Button -->
@@ -452,7 +333,7 @@
     <script type="module">
         import { auth, db } from './firestore-init.js';
         import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { collection, query, where, getDocs, doc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         $(document).ready(function() {
             AOS.init({ duration: 800 });
@@ -466,85 +347,49 @@
                 const btnSpinner = $('#btnSpinner');
                 const errorAlert = $('#errorAlert');
                 const errorText = $('#errorText');
-                const buyCodeContainer = $('#buyCodeContainer');
 
                 submitBtn.prop('disabled', true);
                 btnText.addClass('d-none');
                 btnSpinner.removeClass('d-none');
                 errorAlert.hide();
-                buyCodeContainer.hide();
 
                 const email = $('#email').val().trim();
                 const password = $('#password').val().trim();
                 const fullName = $('#fullName').val().trim();
-                const accessCode = $('#accessCode').val().trim();
+                const username = $('#username').val().trim();
 
                 try {
-                    // 1. Verify Access Code in Firestore
-                    const codesRef = collection(db, "accessCodes");
-                    const q = query(codesRef, where("code", "==", accessCode));
-                    const querySnapshot = await getDocs(q);
-
-                    let isValidCode = false;
-                    let codeDocId = null;
-
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        if (!data.isUsed) {
-                            isValidCode = true;
-                            codeDocId = doc.id;
-                        }
-                    });
-
-                    // If code is not found or already used
-                    if (querySnapshot.empty || !isValidCode) {
-                        throw new Error("INVALID_CODE");
-                    }
-
-                    // 2. Create Auth User
+                    // 1. Create Auth User
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     const user = userCredential.user;
 
-                    // 3. Update User Profile
+                    // 2. Update User Profile
                     await updateProfile(user, { displayName: fullName });
 
-                    // 4. Mark Code as Used
-                    await updateDoc(doc(db, "accessCodes", codeDocId), {
-                        isUsed: true,
-                        usedBy: user.uid,
-                        usedAt: serverTimestamp()
-                    });
-
-                    // 5. Create User Document (Optional but good for real apps)
+                    // 3. Create User Document in Firestore
                     await setDoc(doc(db, "users", user.uid), {
                         fullName: fullName,
+                        username: username,
                         email: email,
                         createdAt: serverTimestamp(),
-                        points: 12000 // Welcome Bonus
+                        points: 0, // Points start at 0 until payment/package selected
+                        packageStatus: 'pending'
                     });
 
-                    // Success - Redirect
-                    window.location.href = 'index.html'; 
+                    // Success - Redirect to Package Selection
+                    window.location.href = 'select-package.html'; 
 
                 } catch (error) {
                     let msg = "An unexpected error occurred. Please try again.";
                     
-                    if (error.message === "INVALID_CODE") {
-                        msg = "The access code you entered is invalid or it has been used, you can purchase a valid code from a merchant.";
-                        buyCodeContainer.show(); // Show the buy button
-                    } else if (error.code === 'auth/email-already-in-use') {
+                    if (error.code === 'auth/email-already-in-use') {
                         msg = "This email is already registered. Please login instead.";
                     } else if (error.code === 'auth/weak-password') {
                         msg = "Password should be at least 6 characters.";
                     }
 
                     errorText.text(msg);
-                    errorAlert.slideDown(300, function() {
-                        // Auto scroll to error with a slight buffer for the fixed navbar/spacing
-                        $('html, body').animate({
-                            scrollTop: $("#errorAlert").offset().top - 120
-                        }, 600);
-                    });
+                    errorAlert.slideDown(300);
                     
                     // Reset Button
                     submitBtn.prop('disabled', false);

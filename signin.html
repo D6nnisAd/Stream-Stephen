@@ -250,8 +250,8 @@
 
                 try {
                     await signInWithEmailAndPassword(auth, email, password);
-                    // Login Success
-                    window.location.href = 'index.html'; // Or dashboard.html
+                    // Login Success - Redirect to Package Selection
+                    window.location.href = 'select-package.html'; 
                 } catch (error) {
                     let msg = "Invalid email or password.";
                     if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
