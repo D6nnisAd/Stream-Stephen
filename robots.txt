@@ -4,6 +4,7 @@ Disallow: /firestore-init.js
 Disallow: /admin.html
 Disallow: /login.html
 Disallow: /register.html
+Disallow: /select-package
 Allow: /
 
 Sitemap: https://streamafricaapp.com.ng/sitemap.xml
