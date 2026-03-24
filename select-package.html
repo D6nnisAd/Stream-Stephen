@@ -270,10 +270,51 @@
                 <p>Unlock premium content, rewards, and the full power of Stream.</p>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-6" data-aos="zoom-in" data-aos-duration="800">
-                    <div class="pricing-card-container">
-                        <div class="pricing-header">
+            <div class="row justify-content-center g-4">
+                
+                <!-- Luxury Package -->
+                <div class="col-lg-5 col-md-6 mb-4" data-aos="zoom-in" data-aos-duration="800">
+                    <div class="pricing-card-container" style="max-width: none;">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #0a2e33 0%, #17525a 100%);">
+                            <h2 class="m-0 text-white" style="font-weight: 700;">Luxury Package</h2>
+                            <small class="text-white-50 d-block mt-2">Maximum Rewards</small>
+                        </div>
+                        <div class="pricing-body" style="border: 2px solid #8c9e78; border-top: none;">
+                            <div class="text-center">
+                                <div class="onboarding-badge" style="border-color: #8c9e78;">
+                                    <span class="onboarding-label">One-time Fee</span>
+                                    <span class="onboarding-price">₦20,000</span>
+                                </div>
+                            </div>
+                            <ul class="pricing-list">
+                                <li class="pricing-item" style="color: #17525a; font-weight: 700;"><span><i class="fas fa-sync-alt"></i> Stream Cashback</span><span class="price-pill" style="background-color: #e3efd3;">₦20,000 (100%)</span></li>
+                                <li class="pricing-item"><span><i class="fas fa-arrow-up"></i> Upgrade Bonus</span><span class="price-pill">₦1,500</span></li>
+                                <li class="pricing-item"><span><i class="fas fa-handshake"></i> Stream Partner</span><span class="price-pill">₦15,000</span></li>
+                                <li class="pricing-item"><span><i class="fas fa-check-circle"></i> TikTok Creator's Network</span><span class="price-pill">Included</span></li>
+                                <li class="pricing-item"><span><i class="fas fa-star"></i> VIP Access</span><span class="price-pill">6 Months</span></li>
+                            </ul>
+                            
+                            <button class="btn btn-pay" data-amount="20000" style="background-color: #17525a; color: #fcf6ba;">
+                                <span class="btn-text">Secure Payment ₦20,000</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                            
+                            <div class="text-center mt-3">
+                                <small style="font-size: 0.75rem; color: #5a6b5c;"><i class="fas fa-lock me-1"></i> Secured by Korapay</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stream Premium -->
+                <div class="col-lg-5 col-md-6 mb-4" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100">
+                    <div class="pricing-card-container" style="max-width: none;">
+                        <style>
+                            .regular-header::before {
+                                content: none !important;
+                            }
+                        </style>
+                        <div class="pricing-header regular-header">
                             <h2 class="m-0 text-white" style="font-weight: 700;">Stream Premium</h2>
                             <small class="text-white-50 d-block mt-2">Full Access Membership</small>
                         </div>
@@ -292,9 +333,9 @@
                                 <li class="pricing-item"><span><i class="fas fa-star"></i> VIP Community Badge</span><span class="price-pill">Included</span></li>
                             </ul>
                             
-                            <button id="payButton" class="btn btn-pay">
-                                <span id="btnText">Secure Payment ₦12,000</span>
-                                <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            <button class="btn btn-pay" data-amount="12000">
+                                <span class="btn-text">Secure Payment ₦12,000</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                             </button>
                             
                             <div class="text-center mt-3">
@@ -303,6 +344,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="support-note" data-aos="fade-up" data-aos-delay="300">
@@ -369,12 +411,13 @@
             initGlobalLink();
 
             // 3. Payment Handler
-            $('#payButton').on('click', function() {
+            $('.btn-pay').on('click', function() {
                 if (!currentUser) return;
 
                 const btn = $(this);
-                const btnText = $('#btnText');
-                const btnSpinner = $('#btnSpinner');
+                const btnText = btn.find('.btn-text');
+                const btnSpinner = btn.find('.spinner-border');
+                const amount = parseInt(btn.data('amount'));
 
                 // Loading State
                 btn.prop('disabled', true);
@@ -385,7 +428,7 @@
                     window.Korapay.initialize({
                         key: "pk_live_Yx9DGcvjpKxXMANiwp1kwnBfKq1ZPYz2h63fTwHs",
                         reference: "STREAM_" + Date.now() + "_" + Math.floor(Math.random() * 1000000),
-                        amount: 12000,
+                        amount: amount,
                         currency: "NGN",
                         customer: {
                             name: currentUser.displayName || "Stream Member",
@@ -402,7 +445,7 @@
                             // Update User Status in Firestore
                             updateDoc(doc(db, "users", currentUser.uid), {
                                 packageStatus: 'active',
-                                paidAmount: 12000,
+                                paidAmount: amount,
                                 paymentRef: data.reference,
                                 updatedAt: serverTimestamp()
                             }).then(() => {
