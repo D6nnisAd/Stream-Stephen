@@ -300,7 +300,7 @@
                             </button>
                             
                             <div class="text-center mt-3">
-                                <small style="font-size: 0.75rem; color: #5a6b5c;"><i class="fas fa-lock me-1"></i> Secured by Korapay</small>
+                                <small style="font-size: 0.75rem; color: #5a6b5c;"><i class="fas fa-lock me-1"></i> Secured by SquadCo</small>
                             </div>
                         </div>
                     </div>
@@ -339,7 +339,7 @@
                             </button>
                             
                             <div class="text-center mt-3">
-                                <small style="font-size: 0.75rem; color: #5a6b5c;"><i class="fas fa-lock me-1"></i> Secured by Korapay</small>
+                                <small style="font-size: 0.75rem; color: #5a6b5c;"><i class="fas fa-lock me-1"></i> Secured by SquadCo</small>
                             </div>
                         </div>
                     </div>
@@ -360,8 +360,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- Korapay Script -->
-    <script src="https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"></script>
+    <!-- SquadCo Script -->
+    <script src="https://checkout.squadco.com/widget/squad.min.js"></script>
 
     <script type="module">
         import { auth, db } from './firestore-init.js';
@@ -425,16 +425,14 @@
                 btnSpinner.removeClass('d-none');
 
                 try {
-                    window.Korapay.initialize({
-                        key: "pk_live_Yx9DGcvjpKxXMANiwp1kwnBfKq1ZPYz2h63fTwHs",
-                        reference: "STREAM_" + Date.now() + "_" + Math.floor(Math.random() * 1000000),
-                        amount: amount,
+                    const txRef = "STREAM_" + Date.now() + "_" + Math.floor(Math.random() * 1000000);
+                    const squadInstance = new squad({
+                        key: "pk_4300b63695833202ef2658af4f435d80de024ac6",
+                        email: currentUser.email,
+                        amount: amount * 100,
                         currency: "NGN",
-                        customer: {
-                            name: currentUser.displayName || "Stream Member",
-                            email: currentUser.email
-                        },
-                        notification_url: "", // Optional webhook
+                        transaction_ref: txRef,
+                        initiate_type: "inline",
                         onClose: function () {
                             // Reset Button
                             btn.prop('disabled', false);
@@ -446,7 +444,7 @@
                             updateDoc(doc(db, "users", currentUser.uid), {
                                 packageStatus: 'active',
                                 paidAmount: amount,
-                                paymentRef: data.reference,
+                                paymentRef: txRef,
                                 updatedAt: serverTimestamp()
                             }).then(() => {
                                 // Redirect to Global Link
@@ -454,6 +452,8 @@
                             });
                         }
                     });
+                    squadInstance.setup();
+                    squadInstance.open();
                 } catch (e) {
                     console.error("Payment Error:", e);
                     alert("Unable to initialize payment. Please contact support.");
